@@ -5,7 +5,6 @@ import time
 import os
 from functions import *
 
-# base_url = "https://mqlsupport.agent42.ir"
 base_url = "http://127.0.0.1:5000"
 download_endpoint = "/update" #download endpoint as zip
 version_endpoint = "/version" #version endpoint as float
