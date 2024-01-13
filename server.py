@@ -44,7 +44,7 @@ def latest_core_version():
     # looking for lock file
     for _file in os.listdir(update_files_path):
         if "lock" in _file:
-            return make_response(f"-1", 404)
+            return make_response(f"-1", 200)
 
     for _file in os.listdir(update_files_path):
         if _file!=main_file:
