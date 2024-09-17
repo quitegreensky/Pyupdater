@@ -25,7 +25,13 @@ def is_process_open(process_name):
 
 
 def run_script_in_terminal(script_path):
-    subprocess.Popen(['start', 'cmd', '/c', 'python', script_path], shell=True, creationflags=subprocess.CREATE_NEW_CONSOLE)
+    venv_python = os.path.join('env', 'Scripts', 'python.exe')
+    if not os.path.exists(venv_python):
+        print("env not found.")
+        venv_python = 'python'
+
+    # Start a new command prompt, run the script using the virtual environment's Python, and keep the window open
+    subprocess.Popen(['start', 'cmd', '/k', venv_python, script_path], shell=True, creationflags=subprocess.CREATE_NEW_CONSOLE)
 
 
 def ensure_directory_exists(directory_path):
