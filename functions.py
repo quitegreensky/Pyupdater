@@ -1,6 +1,9 @@
 import subprocess
 import psutil
 import os
+import pygetwindow as gw
+import win32gui
+import win32con
 
 
 def stop_process_by_name(process_name):
@@ -11,6 +14,16 @@ def stop_process_by_name(process_name):
             continue
         if process_name in cmd_lines:
             psutil.Process(process.info['pid']).terminate()
+
+    # close
+    windows = gw.getAllTitles()
+    for title in windows:
+        if process_name in title:
+            window = gw.getWindowsWithTitle(title)
+            if window:
+                hwnd = window[0]._hWnd
+                win32gui.PostMessage(hwnd, win32con.WM_CLOSE, 0, 0)
+                print(f"Closed window: {title}")
 
 
 def is_process_open(process_name):
