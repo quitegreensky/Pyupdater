@@ -19,7 +19,11 @@ ensure_directory_exists(core_path)
 def request_core_files():
     data = {}
     url = f"{base_url}{download_endpoint}"
-    res = requests.get(url, json=data, stream=True)
+    try:
+        res = requests.get(url, json=data, stream=True)
+    except:
+        print("request core files failed. check connection")
+        return
     if res.status_code!=200:
         print("error downloading files")
         print(res.text)
@@ -37,7 +41,11 @@ def request_core_files():
 
 def request_latest_version():
     url = f"{base_url}{version_endpoint}"
-    res = requests.get(url)
+    try:
+        res = requests.get(url)
+    except:
+        print("request latest version failed. check connection")
+        return
     if res.status_code!=200:
         print("error downloading files")
         print(res.text)
