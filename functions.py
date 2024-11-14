@@ -1,5 +1,4 @@
 import subprocess
-import psutil
 import os
 import pygetwindow as gw
 import win32gui
@@ -9,21 +8,21 @@ def stop_process_by_name(process_name):
     # close
     windows = gw.getAllTitles()
     for title in windows:
-        if process_name in title:
-            window = gw.getWindowsWithTitle(title)
-            if window:
-                hwnd = window[0]._hWnd
-                win32gui.PostMessage(hwnd, win32con.WM_CLOSE, 0, 0)
-                print(f"Closed window: {title}")
+        if "cmd.exe" in title:
+            if (process_name in title) or ".py" not in title:
+                # close the running script
+                # also close all cmds not running a .py file... idle
+                window = gw.getWindowsWithTitle(title)
+                if window:
+                    hwnd = window[0]._hWnd
+                    win32gui.PostMessage(hwnd, win32con.WM_CLOSE, 0, 0)
+                    print(f"Closed window: {title}")
 
 
 def is_process_open(process_name):
-    for process in psutil.process_iter(['pid', 'name', 'cmdline', "status"]):
-
-        cmd_lines = process.info.get('cmdline', [])
-        if not cmd_lines:
-            continue
-        if process_name in cmd_lines:
+    windows = gw.getAllTitles()
+    for title in windows:
+        if process_name in title:
             return True
     return False
 
